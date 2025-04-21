@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import kaboom from "kaboom";
-import townMap from "../assets/2dMap/tileSheet/tileSheet.png";
+import townMap from "../assets/2dMap/tileSheet/tilesheet.png";
 import greenShip from "../assets/spaceShip/green.png";
 
 export default function GameWorld() {
@@ -20,8 +20,7 @@ export default function GameWorld() {
         k.loadSprite("tileSheet", townMap, {
             sliceX: 14,
             sliceY: 11,
-            tileWidth: 64,
-            tileHeight: 64,
+            
         });
 
         // Loading ship sprites
@@ -51,7 +50,7 @@ export default function GameWorld() {
 
             // Create walls using the tile sheet
 
-            for(let i=3;i<8;i++){
+            for(let i=3;i<7;i++){
                 k.add([
                     k.sprite("tileSheet", { frame: 3 }),
                     k.pos(i * tileSize, 0 * tileSize),
@@ -65,30 +64,60 @@ export default function GameWorld() {
                 k.z(2)
             ])
 
-            k.add([
-                k.sprite("tileSheet", { frame: 3 }),
-                k.pos(  2* tileSize, 2 * tileSize),
-                k.z(2),
-                k.rotate(-90)
-            ])
-            k.add([
-                k.sprite("tileSheet", { frame: 3 }),
-                k.pos(  2* tileSize, 3 * tileSize),
-                k.z(2),
-                k.rotate(-90)
-            ])
-            k.add([
-                k.sprite("tileSheet", { frame: 3 }),
-                k.pos(  2* tileSize, 4 * tileSize),
-                k.z(2),
-                k.rotate(-90)
-            ])
+
+
+            for(let i=2;i<5;i++){
+                k.add([
+                    k.sprite("tileSheet", { frame: 3 }),
+                    k.pos(  2* tileSize, i * tileSize),
+                    k.z(2),
+                    k.rotate(-90)
+                ])
+            }
+
             k.add([
                 k.sprite("tileSheet", { frame: 3 }),
                 k.pos(  2* tileSize, 6 * tileSize),
                 k.z(2),
                 k.rotate(-90)
             ])
+           
+            k.add([
+                k.sprite("tileSheet", { frame: 2 }),
+                k.pos(8 * tileSize, 0 * tileSize),
+                k.z(2),
+                k.rotate(90)
+            ])
+
+
+
+            for (let i=1;i<4;i++){
+                k.add([
+                    k.sprite("tileSheet", { frame: 3 }),
+                    k.pos(  8* tileSize, i * tileSize),
+                    k.z(2),
+                    k.rotate(90)
+                    
+                ])
+    
+            }
+
+            k.add([
+                k.sprite("tileSheet", { frame: 36 }),
+                k.pos(  7* tileSize, 4 * tileSize),
+                k.z(2),
+                
+            ])
+
+            k.add([
+                k.sprite("tileSheet", { frame: 22 }),
+                k.pos(  9* tileSize, 4 * tileSize),
+                k.z(2),
+                k.rotate(90)
+                
+            ])
+       
+
               
             
             // Create player ship with controls
