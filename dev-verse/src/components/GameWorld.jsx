@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import kaboom from "kaboom";
 import townMap from "../assets/2dMap/tileSheet/tilesheet.png";
 import greenShip from "../assets/spaceShip/green.png";
-
+import banner from "../assets/ui/banner.png";
 export default function GameWorld() {
     const canvasRef = useRef(null);
 
@@ -28,6 +28,9 @@ export default function GameWorld() {
             tileWidth: 10,
             tileHeight: 10,
         });
+
+        k.loadSprite("banner", banner)
+
 
         const tileSize = 64;
         
@@ -116,8 +119,50 @@ export default function GameWorld() {
                 k.rotate(90)
                 
             ])
-       
+            k.add([
+                k.sprite("tileSheet", { frame: 22 }),
+                k.pos(  10* tileSize, 4 * tileSize),
+                k.z(2),
+                k.rotate(90)
+                
+            ])
 
+            k.add([
+                k.sprite("tileSheet", { frame: 1 }),
+                k.pos(  11* tileSize, 5 * tileSize),
+                k.z(2),
+                k.rotate(180)
+                
+            ])
+            k.add([
+                k.sprite("tileSheet", { frame: 15 }),
+                k.pos(  10* tileSize, 3 * tileSize),
+                k.z(2),  
+            ])
+       
+            k.add([
+                k.sprite("tileSheet", { frame: 15 }),
+                k.pos(  10* tileSize, 2 * tileSize),
+                k.z(2),  
+            ])
+            
+            //Banner 
+            k.add([
+                k.sprite("banner"),
+                k.pos(0, 0),
+                k.z(1),
+                k.scale(0.5)
+            ])
+
+            k.add([
+                k.text("Dev Verse",{
+                    size: 24,
+                    font: "sinko",
+                    color: 'black',
+                }),
+                k.pos(0.7, 0),
+                k.z(2),
+            ])
               
             
             // Create player ship with controls
@@ -127,6 +172,7 @@ export default function GameWorld() {
                 k.area(),
                 k.body(),
                 k.scale(0.3),
+                k.z(2.5),
                 "player",
                 {
                     speed: 200,
@@ -168,9 +214,9 @@ export default function GameWorld() {
             });
 
             // Check for collisions with walls
-            player.onCollide("wall", () => {
+            player.onCollide("banner", () => {
                 // Push the player away from the wall
-                player.pos.x = tileSize;
+                console.log("Collided with wall!");
             });
 
             // Add game boundaries
