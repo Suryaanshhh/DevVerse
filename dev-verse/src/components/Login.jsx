@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
+import GameWorld from './GameWorld';
 
 export default function ScribbleGameAuth() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const signInWithGoogle = async () => {
     try {
       setIsLoading(true);
       setError(null);
       await signInWithPopup(auth, googleProvider);
+      // Set logged in state to true to render GameWorld component
+      setIsLoggedIn(true);
     } catch (err) {
       console.error(err);
       setError("Failed to log in! Try again?");
@@ -23,12 +27,18 @@ export default function ScribbleGameAuth() {
     try {
       setIsLoading(true);
       await signOut(auth);
+      setIsLoggedIn(false);
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // If user is logged in, render the GameWorld component
+  if (auth.currentUser && isLoggedIn) {
+    return <GameWorld />;
+  }
 
   // Fixed MapMarker with explicit Tailwind classes
   const MapMarker = ({ color }) => {
