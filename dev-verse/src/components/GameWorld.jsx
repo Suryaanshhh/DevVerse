@@ -14,6 +14,7 @@ export default function GameWorld() {
             scale: 2,
             canvas: canvasRef.current,
             background: [0, 0, 0],
+            global: false
         });
 
         // Load sprites
@@ -53,6 +54,7 @@ export default function GameWorld() {
                     k.pos(i * tileSize, 0 * tileSize),
                     k.z(2),
                     k.area(),
+                    k.body({ isStatic: true }),
                     "wall",
                 ]);
             }
@@ -63,6 +65,7 @@ export default function GameWorld() {
                 k.pos(2 * tileSize, 0 * tileSize),
                 k.z(2),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -74,6 +77,7 @@ export default function GameWorld() {
                     k.z(2),
                     k.rotate(-90),
                     k.area(),
+                    k.body({ isStatic: true }),
                     "wall",
                 ]);
             }
@@ -84,6 +88,7 @@ export default function GameWorld() {
                 k.z(2),
                 k.rotate(-90),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -94,6 +99,7 @@ export default function GameWorld() {
                 k.z(2),
                 k.rotate(90),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -105,6 +111,7 @@ export default function GameWorld() {
                     k.z(2),
                     k.rotate(90),
                     k.area(),
+                    k.body({ isStatic: true }),
                     "wall",
                 ]);
             }
@@ -115,6 +122,7 @@ export default function GameWorld() {
                 k.pos(7 * tileSize, 4 * tileSize),
                 k.z(2),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -124,6 +132,7 @@ export default function GameWorld() {
                 k.z(2),
                 k.rotate(90),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -133,6 +142,7 @@ export default function GameWorld() {
                 k.z(2),
                 k.rotate(90),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -142,6 +152,7 @@ export default function GameWorld() {
                 k.z(2),
                 k.rotate(180),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -150,6 +161,7 @@ export default function GameWorld() {
                 k.pos(10 * tileSize, 3 * tileSize),
                 k.z(2),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -158,6 +170,7 @@ export default function GameWorld() {
                 k.pos(10 * tileSize, 2 * tileSize),
                 k.z(2),
                 k.area(),
+                k.body({ isStatic: true }),
                 "wall",
             ]);
 
@@ -182,7 +195,7 @@ export default function GameWorld() {
             // Player
             const player = k.add([
                 k.sprite("greenShip"),
-                k.pos(tileSize * 2, tileSize * 2),
+                k.pos(tileSize * 2, tileSize * 2), // Keep original starting position
                 k.area(),
                 k.body(),
                 k.scale(0.3),
@@ -194,16 +207,37 @@ export default function GameWorld() {
             ]);
 
             // Movement controls
-            const movePlayer = (dx, dy) => player.move(dx * player.speed, dy * player.speed);
-
-            k.onKeyDown("left", () => movePlayer(-1, 0));
-            k.onKeyDown("right", () => movePlayer(1, 0));
-            k.onKeyDown("up", () => movePlayer(0, -1));
-            k.onKeyDown("down", () => movePlayer(0, 1));
-            k.onKeyDown("a", () => movePlayer(-1, 0));
-            k.onKeyDown("d", () => movePlayer(1, 0));
-            k.onKeyDown("w", () => movePlayer(0, -1));
-            k.onKeyDown("s", () => movePlayer(0, 1));
+            k.onKeyDown("left", () => {
+                player.move(-player.speed, 0);
+            });
+            
+            k.onKeyDown("right", () => {
+                player.move(player.speed, 0);
+            });
+            
+            k.onKeyDown("up", () => {
+                player.move(0, -player.speed);
+            });
+            
+            k.onKeyDown("down", () => {
+                player.move(0, player.speed);
+            });
+            
+            k.onKeyDown("a", () => {
+                player.move(-player.speed, 0);
+            });
+            
+            k.onKeyDown("d", () => {
+                player.move(player.speed, 0);
+            });
+            
+            k.onKeyDown("w", () => {
+                player.move(0, -player.speed);
+            });
+            
+            k.onKeyDown("s", () => {
+                player.move(0, player.speed);
+            });
 
             // Optional collision log
             player.onCollide("wall", () => {
