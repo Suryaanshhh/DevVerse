@@ -1,11 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import kaboom from "kaboom";
 import townMap from "../assets/2dMap/tileSheet/tilesheet.png";
 import greenShip from "../assets/spaceShip/green.png";
 import banner from "../assets/ui/banner.png";
+import ChatOverlay from "../components/ChatOverLay.jsx";
 
 export default function GameWorld() {
     const canvasRef = useRef(null);
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         const k = kaboom({
@@ -29,7 +31,10 @@ export default function GameWorld() {
         });
 
         k.loadSprite("banner", banner);
-
+        
+        // Load chat icon sprite - you'll need to add this to your assets
+        // Or you can create a simple text sprite as shown below
+        
         const tileSize = 64;
 
         k.scene("game", () => {
@@ -121,8 +126,6 @@ export default function GameWorld() {
                 k.sprite("tileSheet", { frame: 36 }),
                 k.pos(7 * tileSize, 4 * tileSize),
                 k.z(2),
-            
-                
             ]);
 
             k.add([
@@ -130,8 +133,6 @@ export default function GameWorld() {
                 k.pos(9 * tileSize, 4 * tileSize),
                 k.z(2),
                 k.rotate(90),
-           
-                
             ]);
 
             k.add([
@@ -139,8 +140,6 @@ export default function GameWorld() {
                 k.pos(10 * tileSize, 4 * tileSize),
                 k.z(2),
                 k.rotate(90),
-             
-                
             ]);
 
             k.add([
@@ -148,23 +147,18 @@ export default function GameWorld() {
                 k.pos(11 * tileSize, 5 * tileSize),
                 k.z(2),
                 k.rotate(180),
-               
-               
             ]);
 
             k.add([
                 k.sprite("tileSheet", { frame: 15 }),
                 k.pos(10 * tileSize, 3 * tileSize),
                 k.z(2),
-               
-                
             ]);
 
             k.add([
                 k.sprite("tileSheet", { frame: 15 }),
                 k.pos(10 * tileSize, 2 * tileSize),
                 k.z(2),
-                
             ]);
 
             // Banner (no collision)
@@ -199,6 +193,34 @@ export default function GameWorld() {
                 },
             ]);
 
+            // Add chat button as a sprite
+            const chatButton = k.add([
+                k.rect(64, 35, { radius: 4 }), // Slightly rounded rectangle for a hand-drawn feel
+                k.color(255, 255, 255), // White background
+                k.outline(3, k.rgb(0, 0, 0)), // Thick black outline to give it that "scribble" look
+                k.pos(3*tileSize, 0.5*tileSize), 
+                k.fixed(),
+                k.area(),
+                k.z(10),
+                k.opacity(0.95),
+                "chatButton",
+            ]);
+            
+            // Add chat icon or text to the button
+            k.add([
+                k.text("💬", {
+                    size: 14,
+                }),
+                k.pos(3*tileSize, 0.5*tileSize), 
+                k.fixed(),
+                k.z(11),
+            ]);
+            
+            // Make chat button clickable
+            chatButton.onClick(() => {
+                setIsChatOpen(true);  // Open chat overlay
+            });
+
             // Movement controls
             k.onKeyDown("left", () => {
                 player.move(-player.speed, 0);
@@ -232,6 +254,15 @@ export default function GameWorld() {
                 player.move(0, player.speed);
             });
 
+            // Chat shortcut key
+            k.onKeyPress("c", () => {
+                setIsChatOpen(true);
+            });
+
+            player.onCollide("chatButton", () => {
+                setIsChatOpen(true);  // Open chat overlay when colliding with chat button
+            });
+
             // Optional collision log
             player.onCollide("wall", () => {
                 console.log("Bumped into wall!");
@@ -245,11 +276,12 @@ export default function GameWorld() {
         return () => {
             // Cleanup if needed
         };
-    }, []);
+    }, [isChatOpen]); // Add isChatOpen as dependency to update when chat opens/closes
 
     return (
         <div className="overflow-hidden m-0 p-0">
             <canvas ref={canvasRef} className="block w-full h-full" />
+            {isChatOpen && <ChatOverlay onClose={() => setIsChatOpen(false)} />}
         </div>
     );
 }
