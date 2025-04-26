@@ -121,9 +121,8 @@ export default function GameWorld() {
                 k.sprite("tileSheet", { frame: 36 }),
                 k.pos(7 * tileSize, 4 * tileSize),
                 k.z(2),
-                k.area(),
-                k.body({ isStatic: true }),
-                "wall",
+            
+                
             ]);
 
             k.add([
@@ -131,9 +130,8 @@ export default function GameWorld() {
                 k.pos(9 * tileSize, 4 * tileSize),
                 k.z(2),
                 k.rotate(90),
-                k.area(),
-                k.body({ isStatic: true }),
-                "wall",
+           
+                
             ]);
 
             k.add([
@@ -141,9 +139,8 @@ export default function GameWorld() {
                 k.pos(10 * tileSize, 4 * tileSize),
                 k.z(2),
                 k.rotate(90),
-                k.area(),
-                k.body({ isStatic: true }),
-                "wall",
+             
+                
             ]);
 
             k.add([
@@ -151,27 +148,23 @@ export default function GameWorld() {
                 k.pos(11 * tileSize, 5 * tileSize),
                 k.z(2),
                 k.rotate(180),
-                k.area(),
-                k.body({ isStatic: true }),
-                "wall",
+               
+               
             ]);
 
             k.add([
                 k.sprite("tileSheet", { frame: 15 }),
                 k.pos(10 * tileSize, 3 * tileSize),
                 k.z(2),
-                k.area(),
-                k.body({ isStatic: true }),
-                "wall",
+               
+                
             ]);
 
             k.add([
                 k.sprite("tileSheet", { frame: 15 }),
                 k.pos(10 * tileSize, 2 * tileSize),
                 k.z(2),
-                k.area(),
-                k.body({ isStatic: true }),
-                "wall",
+                
             ]);
 
             // Banner (no collision)
