@@ -4,7 +4,7 @@ import townMap from "../assets/2dMap/tileSheet/tilesheet.png";
 import greenShip from "../assets/spaceShip/green.png";
 import banner from "../assets/ui/banner.png";
 import ChatOverlay from "../components/ChatOverLay.jsx";
-
+import laptop from "../assets/ui/laptop.png";
 export default function GameWorld() {
     const canvasRef = useRef(null);
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -31,6 +31,9 @@ export default function GameWorld() {
         });
 
         k.loadSprite("banner", banner);
+
+        k.loadSprite("laptop", laptop,);
+
         
         // Load chat icon sprite - you'll need to add this to your assets
         // Or you can create a simple text sprite as shown below
@@ -126,6 +129,7 @@ export default function GameWorld() {
                 k.sprite("tileSheet", { frame: 36 }),
                 k.pos(7 * tileSize, 4 * tileSize),
                 k.z(2),
+                "path"
             ]);
 
             k.add([
@@ -133,6 +137,7 @@ export default function GameWorld() {
                 k.pos(9 * tileSize, 4 * tileSize),
                 k.z(2),
                 k.rotate(90),
+                "path"
             ]);
 
             k.add([
@@ -140,6 +145,7 @@ export default function GameWorld() {
                 k.pos(10 * tileSize, 4 * tileSize),
                 k.z(2),
                 k.rotate(90),
+                "path"
             ]);
 
             k.add([
@@ -147,18 +153,21 @@ export default function GameWorld() {
                 k.pos(11 * tileSize, 5 * tileSize),
                 k.z(2),
                 k.rotate(180),
+                "path"
             ]);
 
             k.add([
                 k.sprite("tileSheet", { frame: 15 }),
                 k.pos(10 * tileSize, 3 * tileSize),
                 k.z(2),
+                "path"
             ]);
 
             k.add([
                 k.sprite("tileSheet", { frame: 15 }),
                 k.pos(10 * tileSize, 2 * tileSize),
                 k.z(2),
+                "path"
             ]);
 
             // Banner (no collision)
@@ -195,11 +204,11 @@ export default function GameWorld() {
 
             // Add chat button as a sprite
             const chatButton = k.add([
-                k.rect(64, 35, { radius: 4 }), // Slightly rounded rectangle for a hand-drawn feel
-                k.color(255, 255, 255), // White background
-                k.outline(3, k.rgb(0, 0, 0)), // Thick black outline to give it that "scribble" look
-                k.pos(3*tileSize, 0.5*tileSize), 
+                k.sprite("laptop"), // Thick black outline to give it that "scribble" look
+                k.pos(2.95*tileSize, 0.4*tileSize),
+                
                 k.fixed(),
+                k.scale(0.14),
                 k.area(),
                 k.z(10),
                 k.opacity(0.95),
@@ -207,14 +216,14 @@ export default function GameWorld() {
             ]);
             
             // Add chat icon or text to the button
-            k.add([
-                k.text("💬", {
-                    size: 14,
-                }),
-                k.pos(3*tileSize, 0.5*tileSize), 
-                k.fixed(),
-                k.z(11),
-            ]);
+            // k.add([
+            //     k.text("ChatBot", {
+            //         size: 14,
+            //     }),
+            //     k.pos(3*tileSize, 0.5*tileSize), 
+            //     k.fixed(),
+            //     k.z(11),
+            // ]);
             
             // Make chat button clickable
             chatButton.onClick(() => {
