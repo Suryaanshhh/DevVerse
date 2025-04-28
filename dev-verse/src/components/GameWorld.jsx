@@ -5,9 +5,11 @@ import greenShip from "../assets/spaceShip/green.png";
 import banner from "../assets/ui/banner.png";
 import ChatOverlay from "../components/ChatOverLay.jsx";
 import laptop from "../assets/ui/laptop.png";
+import VoiceChat from "./VoiceChatOverLay.jsx";
 export default function GameWorld() {
     const canvasRef = useRef(null);
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const [isVoiceChatOpen, setIsVoiceChatOpen] = useState(false);
 
     useEffect(() => {
         const k = kaboom({
@@ -268,6 +270,19 @@ export default function GameWorld() {
                 setIsChatOpen(true);
             });
 
+            k.onKeyPress("v", () => {
+                setIsVoiceChatOpen(true);
+            });
+
+            k.onKeyPress("c", () => {
+                setIsChatOpen(true);
+            });
+
+            // k.onKeyPress("1",()=>{
+            //     setIsVoiceChatOpen(false)
+            // })
+
+
             player.onCollide("chatButton", () => {
                 setIsChatOpen(true);  // Open chat overlay when colliding with chat button
             });
@@ -291,6 +306,7 @@ export default function GameWorld() {
         <div className="overflow-hidden m-0 p-0">
             <canvas ref={canvasRef} className="block w-full h-full" />
             {isChatOpen && <ChatOverlay onClose={() => setIsChatOpen(false)} />}
+            {isChatOpen && <VoiceChat onClose={() => isVoiceChatOpen(false)} />}
         </div>
     );
 }
