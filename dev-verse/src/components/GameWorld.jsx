@@ -306,7 +306,7 @@ export default function GameWorld() {
         <div className="overflow-hidden m-0 p-0">
             <canvas ref={canvasRef} className="block w-full h-full" />
             {isChatOpen && <ChatOverlay onClose={() => setIsChatOpen(false)} />}
-            {isChatOpen && <VoiceChat onClose={() => isVoiceChatOpen(false)} />}
+            {isVoiceChatOpen && <VoiceChat onClose={() => setIsVoiceChatOpen(false)} />}
         </div>
     );
 }
