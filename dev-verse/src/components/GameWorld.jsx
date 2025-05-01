@@ -8,12 +8,16 @@ import laptop from "../assets/ui/laptop.png";
 import VoiceChat from "./VoiceChatOverLay.jsx";
 import musicBoard from "../assets/ui/musicBoard.png";
 import MusicOverlay from "./MusicBoard.jsx";
+import dictionaryPic from "../assets/ui/dictionary.png";
+import  DictionaryOverlay from "./DictionaryOverlay.jsx";
 
 export default function GameWorld() {
     const canvasRef = useRef(null);
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [isVoiceChatOpen, setIsVoiceChatOpen] = useState(false);
     const [isMusicOpen, setIsMusicOpen] = useState(false);
+
+    const [isBookOpen, setIsBookOpen] = useState(false);
 
     useEffect(() => {
         const k = kaboom({
@@ -41,6 +45,8 @@ export default function GameWorld() {
         k.loadSprite("laptop", laptop,);
 
         k.loadSprite("musicBoard", musicBoard,)
+
+        k.loadSprite("dictionary", dictionaryPic)
 
         // Load chat icon sprite - you'll need to add this to your assets
         // Or you can create a simple text sprite as shown below
@@ -249,22 +255,22 @@ export default function GameWorld() {
             ]);
 
             // Banner (no collision)
-            k.add([
-                k.sprite("banner"),
-                k.pos(0, 0),
-                k.z(1),
-                k.scale(0.5),
-            ]);
+            // k.add([
+            //     k.sprite("banner"),
+            //     k.pos(0, 0),
+            //     k.z(1),
+            //     k.scale(0.5),
+            // ]);
 
-            k.add([
-                k.text("Dev Verse", {
-                    size: 24,
-                    font: "sinko",
-                    color: 'black',
-                }),
-                k.pos(0.7, 0),
-                k.z(2),
-            ]);
+            // k.add([
+            //     k.text("Dev Verse", {
+            //         size: 24,
+            //         font: "sinko",
+            //         color: 'black',
+            //     }),
+            //     k.pos(0.7, 0),
+            //     k.z(2),
+            // ]);
 
             // Player
             const player = k.add([
@@ -293,10 +299,16 @@ export default function GameWorld() {
                 "chatButton",
             ]);
 
-
-            
-
-           
+            const dictionary = k.add([
+                k.sprite("laptop"),
+                k.pos(4.5 * tileSize, 0.4 * tileSize),
+                k.fixed(),
+                k.scale(0.14), // Flip horizontally
+                k.area(),
+                k.z(10),
+                k.opacity(0.95),
+                "dictionary",
+            ]);
 
 
             const voiceButton = k.add([
@@ -353,6 +365,43 @@ export default function GameWorld() {
             ]);
 
 
+            k.add([
+                k.text("📚", {
+                    size: 15,
+                }),
+                k.pos(4.9 * tileSize, 0.7 * tileSize),
+                k.fixed(),
+                k.z(11),
+            ]);
+
+            const instructionBox = k.add([
+                k.rect(128, 150),               // Square background
+                k.pos(0, 64),                // Position (adjust as needed)
+                k.color(255, 255, 255),         // White background (optional)
+                k.outline(4, k.rgb(0, 0, 0)),   // Black border
+                k.z(5),                         // Z-index
+            ]);
+            
+            const instructions = k.add([
+                k.text(
+                    "DevVerse Key Instruction\n" +
+                    "M - open MusicVerse\n" +
+                    "B - open BookVerse\n" +
+                    "C - open ChatVerse\n" +
+                    "V - open VoiceVerse",
+                    {
+                        size: 10,
+                        width: 120,
+                        align: "center",
+                        lineSpacing: 6,
+                    }
+                ),
+                k.pos(instructionBox.pos.x + 64, instructionBox.pos.y + 67), // Center inside the box
+                k.anchor("center"),
+                k.color(0, 0, 0), // Black text
+                k.z(6),
+            ]);
+
 
             // Make chat button clickable
             chatButton.onClick(() => {
@@ -366,6 +415,10 @@ export default function GameWorld() {
 
             musicLayout.onClick(() => {
                 setIsMusicOpen(true);  // Open music overlay
+            })
+
+            dictionary.onClick(() => {
+                setIsBookOpen(true);  // Open dictionary overlay
             })
 
             // Movement controls
@@ -418,6 +471,13 @@ export default function GameWorld() {
                 setIsMusicOpen(true);
             });
 
+            // Dictionary shortcut key
+            k.onKeyPress("d", () => {
+                // This will trigger the dictionary through the Whiteboard component
+                // The component handles its own open state
+                document.getElementById('dictionary-button')?.click();
+            });
+
             // k.onKeyPress("1",()=>{
             //     setIsVoiceChatOpen(false)
             // })
@@ -436,6 +496,9 @@ export default function GameWorld() {
                 setIsMusicOpen(true);  // Open music overlay when colliding with music board
             })
 
+            player.onCollide("dictionary", () => {
+                setIsBookOpen(true);  // Open dictionary overlay when colliding with dictionary button
+            })
             // Optional collision log
             player.onCollide("wall", () => {
                 console.log("Bumped into wall!");
@@ -449,14 +512,16 @@ export default function GameWorld() {
         return () => {
             // Cleanup if needed
         };
-    }, [isChatOpen, isVoiceChatOpen, isMusicOpen]); // Add isChatOpen as dependency to update when chat opens/closes
+    }, [isChatOpen, isVoiceChatOpen, isMusicOpen,isBookOpen]); // Add dependencies to update when overlays open/close
 
     return (
         <div className="overflow-hidden m-0 p-0">
             <canvas ref={canvasRef} className="block w-full h-full" />
+            
             {isChatOpen && <ChatOverlay onClose={() => setIsChatOpen(false)} />}
             {isVoiceChatOpen && <VoiceChat onClose={() => setIsVoiceChatOpen(false)} />}
             {isMusicOpen && <MusicOverlay onClose={() => setIsMusicOpen(false)} />}
+            {isBookOpen && <DictionaryOverlay onClose={() => setIsBookOpen(false)} />}
         </div>
     );
 }
