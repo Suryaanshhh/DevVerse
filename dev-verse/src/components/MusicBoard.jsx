@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import agencySong from "../assets/music/agencySong.mp3"
 export default function MusicOverlay({ onClose }) {
   const [playlist] = useState([
-    { title: "Agency_Talha", url: agencySong },
+    { title: "ARAMBH PRACHAND", url: agencySong },
   ]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
