@@ -41,10 +41,10 @@ export default function GameWorld() {
         k.loadSprite("laptop", laptop,);
 
         k.loadSprite("musicBoard", musicBoard,)
-        
+
         // Load chat icon sprite - you'll need to add this to your assets
         // Or you can create a simple text sprite as shown below
-        
+
         const tileSize = 64;
 
         k.scene("game", () => {
@@ -177,9 +177,76 @@ export default function GameWorld() {
                 "path"
             ]);
 
-      
 
+            //Music studio walls
+            k.add([
+                k.sprite("tileSheet", { frame: 2 }),
+                k.pos(9 * tileSize, 1 * tileSize),
+                k.z(2),
+                k.area(),
+                k.body({ isStatic: true }),
+                "wall",
+            ]);
 
+            k.add([
+                k.sprite("tileSheet", { frame: 3 }),
+                k.pos(10 * tileSize, 1 * tileSize),
+                k.z(2),
+                k.area(),
+                k.body({ isStatic: true }),
+                "wall",
+            ]);
+
+            k.add([
+                k.sprite("tileSheet", { frame: 2 }),
+                k.pos(12 * tileSize, 1 * tileSize),
+                k.z(2),
+                k.area(),
+                k.rotate(90),
+                k.body({ isStatic: true }),
+                "wall",
+            ]);
+
+            k.add([
+                k.sprite("tileSheet", { frame: 3 }),
+                k.pos(9 * tileSize, 3 * tileSize),
+                k.z(2),
+                k.area(),
+                k.rotate(-90),
+                k.body({ isStatic: true }),
+                "wall",
+            ]);
+
+            k.add([
+                k.sprite("tileSheet", { frame: 2 }),
+                k.pos(9 * tileSize, 4 * tileSize),
+                k.z(2),
+                k.area(),
+                k.rotate(-90),
+                k.body({ isStatic: true }),
+                "wall",
+            ]);
+
+            
+            k.add([
+                k.sprite("tileSheet", { frame: 3 }),
+                k.pos(12 * tileSize, 2 * tileSize),
+                k.z(2),
+                k.area(),
+                k.rotate(90),
+                k.body({ isStatic: true }),
+                "wall",
+            ]);
+
+            k.add([
+                k.sprite("tileSheet", { frame: 2 }),
+                k.pos(12 * tileSize, 4 * tileSize),
+                k.z(2),
+                k.area(),
+                k.rotate(180),
+                k.body({ isStatic: true }),
+                "wall",
+            ]);
 
             // Banner (no collision)
             k.add([
@@ -216,8 +283,8 @@ export default function GameWorld() {
             // Add chat button as a sprite
             const chatButton = k.add([
                 k.sprite("laptop"), // Thick black outline to give it that "scribble" look
-                k.pos(2.95*tileSize, 0.4*tileSize),
-                
+                k.pos(2.95 * tileSize, 0.4 * tileSize),
+
                 k.fixed(),
                 k.scale(0.14),
                 k.area(),
@@ -225,12 +292,17 @@ export default function GameWorld() {
                 k.opacity(0.95),
                 "chatButton",
             ]);
+
+
             
+
+           
+
 
             const voiceButton = k.add([
                 k.sprite("laptop"), // Thick black outline to give it that "scribble" look
-                k.pos(5.95*tileSize, 0.4*tileSize),
-                
+                k.pos(5.95 * tileSize, 0.4 * tileSize),
+
                 k.fixed(),
                 k.scale(0.14),
                 k.area(),
@@ -239,39 +311,49 @@ export default function GameWorld() {
                 "voiceButton",
             ]);
 
-          const musicLayout=  k.add([
-                k.sprite("musicBoard"),
+            const musicLayout = k.add([
+                k.sprite("laptop"),
                 k.fixed(),
                 k.area(),
-                k.pos(9.85 * tileSize, 1.7 * tileSize),
-                k.scale(0.1),
+                k.pos(10 * tileSize, 2 * tileSize),
+                k.scale(0.14),
                 k.z(3),
-                "musicBoard", 
+                "musicBoard",
             ]
             )
 
-          
+
 
             // Add chat icon or text to the button
-             k.add([
-                 k.text("💬", {
-                     size: 15,
-                 }),
-                 k.pos(3.35*tileSize, 0.7*tileSize), 
-             k.fixed(),
+            k.add([
+                k.text("💬", {
+                    size: 15,
+                }),
+                k.pos(3.35 * tileSize, 0.7 * tileSize),
+                k.fixed(),
                 k.z(11),
-             ]);
+            ]);
 
-             k.add([
+            k.add([
                 k.text("🔊", {
                     size: 15,
                 }),
-                k.pos(6.35*tileSize, 0.7*tileSize), 
-            k.fixed(),
-               k.z(11),
+                k.pos(6.35 * tileSize, 0.7 * tileSize),
+                k.fixed(),
+                k.z(11),
             ]);
 
-            
+            k.add([
+                k.text("🎶", {
+                    size: 15,
+                }),
+                k.pos(10.3 * tileSize, 2.3 * tileSize),
+                k.fixed(),
+                k.z(11),
+            ]);
+
+
+
             // Make chat button clickable
             chatButton.onClick(() => {
                 setIsChatOpen(true);  // Open chat overlay
@@ -290,31 +372,31 @@ export default function GameWorld() {
             k.onKeyDown("left", () => {
                 player.move(-player.speed, 0);
             });
-            
+
             k.onKeyDown("right", () => {
                 player.move(player.speed, 0);
             });
-            
+
             k.onKeyDown("up", () => {
                 player.move(0, -player.speed);
             });
-            
+
             k.onKeyDown("down", () => {
                 player.move(0, player.speed);
             });
-            
+
             k.onKeyDown("a", () => {
                 player.move(-player.speed, 0);
             });
-            
+
             k.onKeyDown("d", () => {
                 player.move(player.speed, 0);
             });
-            
+
             k.onKeyDown("w", () => {
                 player.move(0, -player.speed);
             });
-            
+
             k.onKeyDown("s", () => {
                 player.move(0, player.speed);
             });
@@ -345,7 +427,7 @@ export default function GameWorld() {
                 setIsChatOpen(true);  // Open chat overlay when colliding with chat button
             });
 
-            player.onCollide("voiceButton", () => { 
+            player.onCollide("voiceButton", () => {
                 setIsVoiceChatOpen(true);  // Open voice chat overlay when colliding with voice button
             }
             );
@@ -367,7 +449,7 @@ export default function GameWorld() {
         return () => {
             // Cleanup if needed
         };
-    }, [isChatOpen,isVoiceChatOpen,isMusicOpen]); // Add isChatOpen as dependency to update when chat opens/closes
+    }, [isChatOpen, isVoiceChatOpen, isMusicOpen]); // Add isChatOpen as dependency to update when chat opens/closes
 
     return (
         <div className="overflow-hidden m-0 p-0">
