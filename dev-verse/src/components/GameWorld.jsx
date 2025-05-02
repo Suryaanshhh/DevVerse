@@ -4,7 +4,7 @@ import townMap from "../assets/2dMap/tileSheet/tilesheet.png";
 import greenShip from "../assets/spaceShip/green.png";
 import banner from "../assets/ui/banner.png";
 import ChatOverlay from "../components/ChatOverLay.jsx";
-import laptop from "../assets/ui/laptop.png";
+import laptop from "../assets/ui/laptop.PNG";
 import VoiceChat from "./VoiceChatOverLay.jsx";
 import musicBoard from "../assets/ui/musicBoard.png";
 import MusicOverlay from "./MusicBoard.jsx";
